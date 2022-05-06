@@ -14,8 +14,7 @@ class WeatherInfoList extends StatefulWidget {
 class _WeatherInfoListState extends State<WeatherInfoList> {
   late Future<WeatherReportList> _weatherReportList;
 
-  String get formTextValue = _formTextValue; 
-
+  String get formTextValue => _formTextValue; 
   String _formTextValue = '44418';
 
   set formTextValue(String value){
