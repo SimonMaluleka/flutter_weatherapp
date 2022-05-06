@@ -3,8 +3,9 @@ import '../model/weather_report.dart';
 import '../api/weather_data_service.dart';
 import 'weather_info_list.dart';
 
+final GlobalKey<WeatherInfoListState> weatherInfoList =
+    GlobalKey<WeatherInfoListState>();
 
-final GlobalKey<WeatherInfoListState> weatherInfoList = GlobalKey<WeatherInfoListState>();
 class WeatherRequestForm extends StatefulWidget {
   const WeatherRequestForm({Key? key}) : super(key: key);
 
@@ -14,17 +15,30 @@ class WeatherRequestForm extends StatefulWidget {
 
 class _WeatherRequestFormState extends State<WeatherRequestForm> {
   late Future<WeatherReport> _weatherReport;
-  
+
   final _formKey = GlobalKey<FormState>();
   final _weatherFormController = TextEditingController();
   String get formTextValue => _formTextValue;
-
   String _formTextValue = '';
 
-  set formTextValue(String value){
-    setState((){
+  set formTextValue(String value) {
+    setState(() {
       _formTextValue = value;
     });
+  }
+
+  String get cityId => _cityId;
+  String _cityId = '';
+
+  set cityId(String value) {
+    setState(() {
+      _cityId = value;
+    });
+  }
+
+  void _handleSetCityId(String id) {
+    cityId = id;
+    weatherInfoList.currentState!.cityId = cityId;
   }
 
   @override
@@ -77,18 +91,15 @@ class _WeatherRequestFormState extends State<WeatherRequestForm> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       setState(() {
-                        print(_weatherFormController.text);
-                        String? text = weatherInfoList.currentState?.setState((){
-                          formTextValue = _weatherFormController.text;
-                        });
-                        print(text);
-                        text =  _weatherFormController.text;
-                        // _weatherReportList = WeatherDataService()
-                        //     .getCityForecastById(formTextValue);
+                        formTextValue = _weatherFormController.text;
+                        print(formTextValue);
+                        _handleSetCityId(formTextValue);
+                        // print(weatherInfoList.currentState!.cityId);
                       });
 
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Requesting Weather Infomoration for $formTextValue'),
+                        content: Text(
+                            'Requesting Weather Infomoration for $formTextValue'),
                       ));
                       _weatherFormController.clear();
                     }
@@ -105,7 +116,7 @@ class _WeatherRequestFormState extends State<WeatherRequestForm> {
                 //         ),
                 //       );
 
-                //       _weatherFormController.text = '';
+                //       _weatherFormController.clear();
                 //     }
                 //   },
                 //   child: const Text('Weather By Name'),

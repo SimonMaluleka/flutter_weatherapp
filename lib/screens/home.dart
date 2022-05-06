@@ -19,8 +19,10 @@ class Home extends StatelessWidget {
           child: Column(
             children: <Widget>[
               const SizedBox(height: 20.0),
-              WeatherRequestForm(),
-              WeatherInfoList(),
+              const WeatherRequestForm(),
+              WeatherInfoList(
+                key: weatherInfoList,
+              ),
             ],
           ),
         ),
