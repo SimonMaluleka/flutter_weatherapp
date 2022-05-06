@@ -9,10 +9,10 @@ class WeatherInfoList extends StatefulWidget {
   WeatherInfoList({Key? key}) : super(key: key);
 
   @override
-  State<WeatherInfoList> createState() => _WeatherInfoListState();
+  State<WeatherInfoList> createState() => WeatherInfoListState();
 }
 
-class _WeatherInfoListState extends State<WeatherInfoList> {
+class WeatherInfoListState extends State<WeatherInfoList> {
   late Future<WeatherReportList> _weatherReportList;
 
   String get formTextValue => _formTextValue; 
