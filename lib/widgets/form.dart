@@ -1,0 +1,217 @@
+import 'package:flutter/material.dart';
+import '../model/weather_report.dart';
+
+import '../api/weather_data_service.dart';
+
+class WeatherRequestForm extends StatefulWidget {
+  const WeatherRequestForm({Key? key}) : super(key: key);
+
+  @override
+  State<WeatherRequestForm> createState() => _WeatherRequestFormState();
+}
+
+class _WeatherRequestFormState extends State<WeatherRequestForm> {
+  late Future<WeatherReport> _weatherReport;
+  late Future<WeatherReportList> _weatherReportList;
+  final _formKey = GlobalKey<FormState>();
+  final _weatherFormController = TextEditingController();
+  late String formTextValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _weatherReport = WeatherDataService().getCityID('London');
+    _weatherReportList = WeatherDataService().getCityForecastById('1582504');
+    _weatherFormController.addListener(_setFormTextValue);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _weatherFormController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          appTextField(
+            'City ID or Name',
+            TextInputType.text,
+            const Icon(Icons.search),
+          ),
+          const SizedBox(height: 20.0),
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      setState(() {
+                        _weatherReport =
+                            WeatherDataService().getCityID(formTextValue);
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(formTextValue),
+                        ),
+                      );
+                      _weatherFormController.clear();
+                    }
+                  },
+                  child: const Text('Get City ID'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      setState(() {
+                        _weatherReportList = WeatherDataService()
+                            .getCityForecastById(formTextValue);
+                      });
+
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(_weatherReportList.toString()
+                            //'Requesting Weather Infomoration for $formTextValue'),
+                            ),
+                      ));
+                      _weatherFormController.clear();
+                    }
+                  },
+                  child: const Text('Weather By ID'),
+                ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     if (_formKey.currentState!.validate()) {
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         SnackBar(
+                //           content: Text(
+                //               'Requesting Weather Infomoration for $formTextValue'),
+                //         ),
+                //       );
+
+                //       _weatherFormController.text = '';
+                //     }
+                //   },
+                //   child: const Text('Weather By Name'),
+                // ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: FutureBuilder<WeatherReport>(
+              future: _weatherReport,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(snapshot.data!.id.toString());
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+
+                // By default, show a loading spinner.
+                return const CircularProgressIndicator();
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: FutureBuilder<WeatherReportList>(
+              future: _weatherReportList,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  var data =
+                      snapshot.data?.weatherReportList['consolidated_weather'];
+                  return Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: data.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                            child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+                              leading: Image.network(
+                                  "https://www.metaweather.com/static/img/weather/ico/" +
+                                      data[index]['weather_state_abbr'] +
+                                      ".ico"),
+                              title: const Text('London'),
+                              subtitle: Text(data[index]['weather_state_name']),
+                              trailing: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      "Max: " +
+                                          data[index]['max_temp']
+                                              .round()
+                                              .toString() +
+                                          ' ${String.fromCharCode(0x00B0)}C',
+                                      style: const TextStyle(fontSize: 18)),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                      "Min: " +
+                                          data[index]['min_temp']
+                                              .round()
+                                              .toString() +
+                                          ' ${String.fromCharCode(0x00B0)}C',
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ));
+                      },
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+
+                // By default, show a loading spinner.
+                return const CircularProgressIndicator();
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _setFormTextValue() {
+    formTextValue = _weatherFormController.text;
+  }
+
+  Widget appTextField(String label, TextInputType keyboardType, Icon icon) {
+    return TextFormField(
+        controller: _weatherFormController,
+        validator: ((value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter $label';
+          }
+          return null;
+        }),
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.teal)),
+          focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.orange, width: 2)),
+          prefixIcon: icon,
+          labelText: label,
+          hintText: 'Enter $label',
+          helperText: '$label is required',
+        ));
+  }
+}
