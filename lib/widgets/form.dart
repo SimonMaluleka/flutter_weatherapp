@@ -12,7 +12,7 @@ class WeatherRequestForm extends StatefulWidget {
 
 class _WeatherRequestFormState extends State<WeatherRequestForm> {
   late Future<WeatherReport> _weatherReport;
-  late Future<WeatherReportList> _weatherReportList;
+  
   final _formKey = GlobalKey<FormState>();
   final _weatherFormController = TextEditingController();
   late String formTextValue;
@@ -21,7 +21,6 @@ class _WeatherRequestFormState extends State<WeatherRequestForm> {
   void initState() {
     super.initState();
     _weatherReport = WeatherDataService().getCityID('London');
-    _weatherReportList = WeatherDataService().getCityForecastById('1582504');
     _weatherFormController.addListener(_setFormTextValue);
   }
 

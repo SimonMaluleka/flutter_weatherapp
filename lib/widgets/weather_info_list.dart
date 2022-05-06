@@ -24,6 +24,11 @@ class _WeatherInfoListState extends State<WeatherInfoList> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _weatherReportList = WeatherDataService().getCityForecastById(_formTextValue);
+  }
+  @override
   Widget build(BuildContext context) {
     return Container(
             child: FutureBuilder<WeatherReportList>(
