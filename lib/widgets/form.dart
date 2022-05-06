@@ -16,7 +16,15 @@ class _WeatherRequestFormState extends State<WeatherRequestForm> {
   
   final _formKey = GlobalKey<FormState>();
   final _weatherFormController = TextEditingController();
-  late String formTextValue;
+  String get formTextValue => _formTextValue;
+
+  String _formTextValue = '';
+
+  set formTextValue(String value){
+    setState((){
+      _formTextValue = value;
+    });
+  }
 
   @override
   void initState() {
