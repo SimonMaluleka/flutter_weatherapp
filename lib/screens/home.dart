@@ -17,8 +17,8 @@ class Home extends StatelessWidget {
         child: Container(
           margin: const EdgeInsets.all(20.0),
           child: Column(
-            children: const <Widget>[
-              SizedBox(height: 20.0),
+            children: <Widget>[
+              const SizedBox(height: 20.0),
               WeatherRequestForm(),
               WeatherInfoList(),
             ],
