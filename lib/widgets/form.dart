@@ -78,7 +78,7 @@ class _WeatherRequestFormState extends State<WeatherRequestForm> {
                     if (_formKey.currentState!.validate()) {
                       setState(() {
                         print(_weatherFormController.text);
-                        String? text = weatherInfoList.currentState?.formTextValue;
+                        String? text = weatherInfoList.currentState?.formTextValue(_weatherFormController.text);
                         print(text);
                         text =  _weatherFormController.text;
                         // _weatherReportList = WeatherDataService()
