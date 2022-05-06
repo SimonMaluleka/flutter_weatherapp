@@ -20,7 +20,7 @@ class Home extends StatelessWidget {
             children: const <Widget>[
               SizedBox(height: 20.0),
               WeatherRequestForm(),
-              WeatherInfoList(),
+              //WeatherInfoList(),
             ],
           ),
         ),
