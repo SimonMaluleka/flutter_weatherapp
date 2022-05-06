@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weatherapp/widgets/form.dart';
+import 'package:weatherapp/widgets/weather_info_list.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key, required this.title}) : super(key: key);
@@ -19,7 +20,7 @@ class Home extends StatelessWidget {
             children: const <Widget>[
               SizedBox(height: 20.0),
               WeatherRequestForm(),
-              //WeatherData(),
+              WeatherInfoList(),
             ],
           ),
         ),
