@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../model/weather_report.dart';
 import '../api/weather_data_service.dart';
+import '../widgets/weather_info_list.dart';
+
 
 final GlobalKey<_WeatherInfoListState> weatherInfoList = GlobalKey<_WeatherInfoListState>();
 
