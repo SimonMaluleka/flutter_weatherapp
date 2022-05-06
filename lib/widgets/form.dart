@@ -75,7 +75,6 @@ class _WeatherRequestFormState extends State<WeatherRequestForm> {
 
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('Requesting Weather Infomoration for $formTextValue'),
-                            ),
                       ));
                       _weatherFormController.clear();
                     }
