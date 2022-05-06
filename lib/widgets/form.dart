@@ -75,9 +75,9 @@ class _WeatherRequestFormState extends State<WeatherRequestForm> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState?.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       setState(() {
-                        String text = weatherInfoList.currentState!.formTextValue;
+                        String text = weatherInfoList.currentState?.formTextValue;
                         print(text);
                         text =  _weatherFormController.text;
                         // _weatherReportList = WeatherDataService()
