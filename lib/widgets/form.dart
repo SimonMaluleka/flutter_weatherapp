@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../model/weather_report.dart';
-
 import '../api/weather_data_service.dart';
+
+final GlobalKey<_WeatherInfoListState> weatherInfoList = GlobalKey<_WeatherInfoListState>();
 
 class WeatherRequestForm extends StatefulWidget {
   const WeatherRequestForm({Key? key}) : super(key: key);
@@ -67,6 +68,8 @@ class _WeatherRequestFormState extends State<WeatherRequestForm> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       setState(() {
+
+                        weatherInfoList.currentState!.
                         _weatherReportList = WeatherDataService()
                             .getCityForecastById(formTextValue);
                       });
