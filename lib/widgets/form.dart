@@ -68,15 +68,13 @@ class _WeatherRequestFormState extends State<WeatherRequestForm> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       setState(() {
-
-                        weatherInfoList.currentState!.
-                        _weatherReportList = WeatherDataService()
-                            .getCityForecastById(formTextValue);
+                        weatherInfoList.currentState!.formTextValue =  _weatherFormController.text;
+                        // _weatherReportList = WeatherDataService()
+                        //     .getCityForecastById(formTextValue);
                       });
 
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(_weatherReportList.toString()
-                            //'Requesting Weather Infomoration for $formTextValue'),
+                        content: Text('Requesting Weather Infomoration for $formTextValue'),
                             ),
                       ));
                       _weatherFormController.clear();
