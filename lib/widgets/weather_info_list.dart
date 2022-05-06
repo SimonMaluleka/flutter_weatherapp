@@ -64,9 +64,9 @@ class WeatherInfoListState extends State<WeatherInfoList> {
                                               .round()
                                               .toString() +
                                           ' ${String.fromCharCode(0x00B0)}C',
-                                      style: const TextStyle(fontSize: 18)),
+                                      style: const TextStyle(fontSize: 16)),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 6,
                                   ),
                                   Text(
                                       "Min: " +
@@ -75,7 +75,7 @@ class WeatherInfoListState extends State<WeatherInfoList> {
                                               .toString() +
                                           ' ${String.fromCharCode(0x00B0)}C',
                                       style: const TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 16,
                                       )),
                                 ],
                               ),
